@@ -1,6 +1,6 @@
 import config
 
-def parse_create_v2ray_template(response:dict) -> str :
+def parse_create_v2ray_template(response:dict, vpn_protocol:str) -> str :
     response_data = response["data"]
     username = response_data['username']
     expired = response_data["expired"]
@@ -10,21 +10,36 @@ def parse_create_v2ray_template(response:dict) -> str :
     #domain = response_data["domain"]
     #ns_domain = response_data["ns_domain"]
     
-    vmess_tls_link = response_data["vmess_tls_link"]
-    vmess_nontls_link = response_data["vmess_nontls_link"]
-    vmess_grpc_link = response_data["vmess_grpc_link"]
+    tls = None
+    non_tls = None
+    grpc = None
+    if vpn_protocol == "vmess":
+        tls = response_data["vmess_tls_link"]
+        non_tls = response_data["vmess_nontls_link"]
+        grpc = response_data["vmess_grpc_link"]
+    elif vpn_protocol == "vless":
+        tls = response_data["vless_tls_link"]
+        non_tls = response_data["vless_nontls_link"]
+        grpc = response_data["vless_grpc_link"]
+    elif vpn_protocol == "trojan":
+        tls = response_data["trojan_tls_link"]
+        grpc = response_data["trojan_grpc_link"]
 
     template = None
-    with open("template/v2ray_create_template.txt", 'r', encoding='utf-8') as f:
-        template = f.read()
+    if vpn_protocol != "trojan":
+        with open("template/v2ray_create_template.txt", 'r', encoding='utf-8') as f:
+            template = f.read()
+    else:
+        with open("template/trojan_create_template.txt", 'r', encoding='utf-8') as f:
+            template = f.read()
     
     template_parsed = template.format(
         name=username,
         password=uuid,
         provider=config.PROVIDER,
-        non_tls=vmess_nontls_link,
-        tls=vmess_tls_link,
-        grpc=vmess_grpc_link,
+        non_tls=non_tls,
+        tls=tls,
+        grpc=grpc,
         expired_date=expired,
         max_device=ip_limit
     )
