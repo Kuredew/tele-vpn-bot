@@ -51,7 +51,7 @@ def register_handler(bot: telebot.TeleBot):
                 return
 
             if response["status"] != "success":
-                bot.send_message(chat_id, f"Gagal ({response["message"]})")
+                bot.send_message(chat_id, f"Gagal ({response['message']})")
                 return
             
             if argument["vpn_protocol"] != "ssh":
@@ -89,7 +89,7 @@ def register_handler(bot: telebot.TeleBot):
                 return
             
             if response["status"] != "success":
-                bot.send_message(chat_id, f"Gagal ({response["message"]})")
+                bot.send_message(chat_id, f"Gagal ({response['message']})")
                 return
             
             bot.send_message(chat_id, f"Berhasil Menghapus Akun {argument["username"]}")
@@ -120,7 +120,7 @@ def register_handler(bot: telebot.TeleBot):
                 return
             
             if response["status"] != "success":
-                bot.send_message(chat_id, f"Gagal ({response["message"]})")
+                bot.send_message(chat_id, f"Gagal ({response['message']})")
                 return
             
             if argument["vpn_protocol"] != "ssh":
