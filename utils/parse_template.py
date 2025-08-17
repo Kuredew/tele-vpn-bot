@@ -53,3 +53,45 @@ def parse_renew_v2ray_template(response:dict) -> str :
     )
 
     return template_parsed
+
+def parse_create_ssh_template(response:dict) -> str :
+    response_data = response["data"]
+    username = response_data['username']
+    password = response_data['password']
+    expired = response_data["expired"]
+    ip_limit = response_data["ip_limit"]
+
+    template = None
+    with open("template/ssh_create_template.txt", 'r', encoding='utf-8') as f:
+        template = f.read()
+    
+    template_parsed = template.format(
+        name=username,
+        provider=config.PROVIDER,
+        password=password,
+        expired_date=expired,
+        max_device=ip_limit
+    )
+
+
+    return template_parsed
+
+def parse_renew_ssh_template(response:dict) -> str :
+    response_data = response["data"]
+    username = response_data['username']
+    expired = response_data["exp"]
+    ip_limit = response_data["limitip"]
+
+    template = None
+    with open("template/ssh_renew_template.txt", 'r', encoding='utf-8') as f:
+        template = f.read()
+    
+    template_parsed = template.format(
+        name=username,
+        provider=config.PROVIDER,
+        expired_date=expired,
+        max_device=ip_limit
+    )
+
+
+    return template_parsed

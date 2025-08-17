@@ -1,6 +1,7 @@
 import services.vpn.vmess
 import services.vpn.vless
 import services.vpn.trojan
+import services.vpn.ssh
 
 import utils
 import config
@@ -41,6 +42,8 @@ def register_handler(bot: telebot.TeleBot):
                 response = services.vpn.vless.create(argument)
             elif argument["vpn_protocol"] == "trojan":
                 response = services.vpn.trojan.create(argument)
+            elif argument["vpn_protocol"] == "ssh":
+                response = services.vpn.ssh.create(argument)
 
             if not response:
                 print("HANDLER : Error GET Response")
@@ -51,9 +54,14 @@ def register_handler(bot: telebot.TeleBot):
                 bot.send_message(chat_id, f"Gagal ({response["message"]})")
                 return
             
-            msg_template = utils.parse_create_v2ray_template(response)
-            bot.send_message(chat_id, msg_template, parse_mode='HTML')
-            return
+            if argument["vpn_protocol"] != "ssh":
+                msg_template = utils.parse_create_v2ray_template(response)
+                bot.send_message(chat_id, msg_template, parse_mode='HTML')
+                return
+            else:
+                msg_template = utils.parse_create_ssh_template(response)
+                bot.send_message(chat_id, msg_template, parse_mode='HTML')
+                return
         
         # handle pesan .delete
         if incoming_message.startswith(".delete"):
@@ -73,6 +81,8 @@ def register_handler(bot: telebot.TeleBot):
                 response = services.vpn.vless.delete(argument)
             elif argument["vpn_protocol"] == "trojan":
                 response = services.vpn.trojan.delete(argument)
+            elif argument["vpn_protocol"] == "ssh":
+                response = services.vpn.ssh.delete(argument)
 
             if not response:
                 bot.send_message(chat_id, "Tidak bisa menghapus akun, coba lagi.")
@@ -102,6 +112,8 @@ def register_handler(bot: telebot.TeleBot):
                 response = services.vpn.vless.renew(argument)
             elif argument["vpn_protocol"] == "trojan":
                 response = services.vpn.trojan.renew(argument)
+            elif argument["vpn_protocol"] == "ssh":
+                response = services.vpn.ssh.renew(argument)
 
             if not response:
                 bot.send_message(chat_id, "Tidak bisa memperpanjang akun, coba lagi.")
@@ -111,6 +123,11 @@ def register_handler(bot: telebot.TeleBot):
                 bot.send_message(chat_id, f"Gagal ({response["message"]})")
                 return
             
-            msg_template = utils.parse_renew_v2ray_template(response)
-            bot.send_message(chat_id, msg_template, parse_mode='HTML')
-            return
+            if argument["vpn_protocol"] != "ssh":
+                msg_template = utils.parse_renew_v2ray_template(response)
+                bot.send_message(chat_id, msg_template, parse_mode='HTML')
+                return
+            else:
+                msg_template = utils.parse_renew_ssh_template(response)
+                bot.send_message(chat_id, msg_template, parse_mode='HTML')
+                return

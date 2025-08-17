@@ -13,4 +13,4 @@ Perpanjangan Akun Berhasil!
 │ <b>Max Device :</b> {max_device}
 └────────────────
 
-Selamat menikmati layanan kami 🎇
+Selamat menikmati layanan kami 🎉

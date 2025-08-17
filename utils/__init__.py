@@ -1,2 +1,2 @@
 from .parse_argument import parse_create_argument, parse_delete_argument, parse_renew_argument
-from .parse_template import parse_create_v2ray_template, parse_renew_v2ray_template
+from .parse_template import parse_create_v2ray_template, parse_renew_v2ray_template, parse_create_ssh_template, parse_renew_ssh_template
