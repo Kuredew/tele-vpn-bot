@@ -92,7 +92,7 @@ def register_handler(bot: telebot.TeleBot):
                 bot.send_message(chat_id, f"Gagal ({response['message']})")
                 return
             
-            bot.send_message(chat_id, f"Berhasil Menghapus Akun {argument["username"]}")
+            bot.send_message(chat_id, f"Berhasil Menghapus Akun {argument['username']}")
 
         # handle pesan .delete
         if incoming_message.startswith(".renew"):
