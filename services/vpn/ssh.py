@@ -1,8 +1,8 @@
 import config
-
+from typing import Union
 from ..request import get_request
 
-def create(argument:dict) -> dict | None :
+def create(argument:dict) -> Union[dict, None] :
     username = argument["username"]
     exp = argument["exp"]
     limit_ip = argument["limit_ip"]
@@ -20,7 +20,7 @@ def create(argument:dict) -> dict | None :
 
     return response
 
-def delete(argument:dict) -> dict | None :
+def delete(argument:dict) -> Union[dict, None] :
     username = argument["username"]
 
     param = f":5888/deletessh?user={username}&auth={config.AUTH}"
@@ -30,7 +30,7 @@ def delete(argument:dict) -> dict | None :
 
     return response
 
-def renew(argument:dict) -> dict | None :
+def renew(argument:dict) -> Union[dict, None] :
     username = argument["username"]
     exp = argument["exp"]
     limit_ip = argument["limit_ip"]

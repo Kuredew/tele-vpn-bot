@@ -1,4 +1,6 @@
-def parse_create_argument(string:str) -> dict | None:
+from typing import Union
+
+def parse_create_argument(string:str) -> Union[dict, None]:
     obj = {}
 
     splitted_string = string.split(" ")
@@ -35,7 +37,7 @@ def parse_create_argument(string:str) -> dict | None:
         
     return obj
 
-def parse_delete_argument(string:str) -> dict | None:
+def parse_delete_argument(string:str) -> Union[dict, None]:
     obj = {}
 
     splitted_string = string.split(" ")
@@ -52,7 +54,7 @@ def parse_delete_argument(string:str) -> dict | None:
         
     return obj
 
-def parse_renew_argument(string:str) -> dict | None:
+def parse_renew_argument(string:str) -> Union[dict, None]:
     obj = {}
 
     splitted_string = string.split(" ")

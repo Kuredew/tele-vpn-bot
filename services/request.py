@@ -1,8 +1,8 @@
 from utils import write_read_file
-
+from typing import Union
 import requests
 
-def get_request(url:str) -> dict | None:
+def get_request(url:str) -> Union[dict, None]:
     print(f"    GET {url}")
     try:
         response = requests.get(url)
