@@ -8,3 +8,5 @@ PROVIDER=os.getenv("PROVIDER")
 AUTH=os.getenv("AUTH")
 BOT_TOKEN=os.getenv('BOT_TOKEN')
 ADMIN_ID=os.getenv('ADMIN_ID')
+
+WEBHOOK_URL=os.getenv('WEBHOOK_URL')
