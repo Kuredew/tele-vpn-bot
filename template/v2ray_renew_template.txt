@@ -1,0 +1,16 @@
+Perpanjangan Akun Berhasil!
+
+🌟 INFORMASI AKUN 🌟
+◇━━━━━━━━━━━━━━◇
+🔹 <b>Username :</b> {name}
+🔹 <b>Provider :</b> {provider}
+🔹 <b>Port TLS :</b> 443
+🔹 <b>Port HTTP :</b> 80
+🔹 <b>Network :</b> Websocket (WS)
+◇━━━━━━━━━━━━━━◇
+┌────────────────
+│ <b>Expired :</b> {expired_date}
+│ <b>Max Device :</b> {max_device}
+└────────────────
+
+Selamat menikmati layanan kami 🎇
