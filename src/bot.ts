@@ -1,5 +1,5 @@
 import { Telegraf } from "telegraf"
-import { BOT_TOKEN, MONGODB_DATABASE_URL, SERVER_PORT, WEBHOOK_DOMAIN } from "config"
+import { BOT_TOKEN, CERTIFICATE_PATH, MONGODB_DATABASE_URL, PRIVATE_KEY_PATH, SERVER_PORT, WEBHOOK_DOMAIN } from "config"
 import { exit } from "process"
 
 import registerHandlers from "registerHandlers"
@@ -28,7 +28,11 @@ mongoose.connect(dbURL)
         const webhookPath = await bot.createWebhook( { domain: WEBHOOK_DOMAIN })
 
         app.use(webhookPath)
-        const server = https.createServer({}, app)
+        const server = https.createServer({
+            key: PRIVATE_KEY_PATH,
+            cert: CERTIFICATE_PATH
+        }, app)
+
         server.listen(SERVER_PORT, () => {
             console.log("Bot berjalan...");
         })
