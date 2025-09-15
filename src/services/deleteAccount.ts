@@ -31,13 +31,15 @@ export default async function deleteAccountService(server: ServerInterface, acco
 
         console.log('SERVICE:: Account successfully deleted from VPN Server')
         
-        accountModel.deleteOne(() => {
-            console.log('SERVICE:: Account successfully deleted from database')
-            callback()
-        }).catch((e) => {
-            console.log('SERVICE:: Failed delete account from database')
-            callback(Error(`Akun gagal dihapus dari database, namun berhasil dihapus dari Server VPN\n\nKesalahan : \n${e}`))
-        })
+        accountModel.deleteOne()
+            .then(() => {
+                console.log('SERVICE:: Account successfully deleted from database')
+                callback()
+            })
+            .catch((e) => {
+                console.log('SERVICE:: Failed delete account from database')
+                callback(Error(`Akun gagal dihapus dari database, namun berhasil dihapus dari Server VPN\n\nKesalahan : \n${e}`))
+            })
     } catch (e) {
         callback(Error(`Gagal terhubung ke server VPN, Proses dibatalkan\n\nKesalahan : \n${e}`))
     }

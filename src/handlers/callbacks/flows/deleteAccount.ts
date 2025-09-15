@@ -17,6 +17,7 @@ export default async function deleteAccountCallbackFlow(ctx: Context, callbackQD
     deleteAccountService(server, userState.account, (result: Error | null) => {
         if (result instanceof Error) {
             ctx.editMessageText(result.message, homeButtonMarkup())
+            return
         }
 
         ctx.editMessageText(

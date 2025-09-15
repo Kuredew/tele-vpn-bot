@@ -2,6 +2,8 @@ import { configDotenv } from "dotenv"
 
 configDotenv()
 
+export const APP_ENV = process.env.APP_ENV
+
 export const ADMIN_USER_ID = Number(process.env.ADMIN_USER_ID)
 export const MONGODB_DATABASE_URL = process.env.MONGODB_DATABASE_URL
 export const BOT_TOKEN = process.env.BOT_TOKEN

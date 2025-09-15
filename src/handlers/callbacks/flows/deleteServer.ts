@@ -12,7 +12,7 @@ export default function deleteServerCallbackFlow(ctx: Context, callbackQData: st
 
     deleteServerService(userState.server, (result: Error | null) => {
         if (result instanceof Error) {
-            ctx.editMessageText('Gagal menghapus server dari database.u', homeButtonMarkup())
+            ctx.editMessageText('Gagal menghapus server dari database', homeButtonMarkup())
             return
         }
 
