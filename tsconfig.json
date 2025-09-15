@@ -3,12 +3,12 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./src",
-    // "outDir": "./dist",
+    "outDir": "./dist",
     "baseUrl": "./src",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    "module": "esnext",
     "target": "esnext",
     "types": ["node"],
     // For nodejs:
@@ -40,6 +40,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
     "skipLibCheck": true,
   }
 }
