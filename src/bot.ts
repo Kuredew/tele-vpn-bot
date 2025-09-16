@@ -45,12 +45,14 @@ function startDevelompent() {
 function main() {
     mongoose.connect(dbURL)
         .then(() => {
-            switch (APP_ENV) {
-                case 'production':
-                    startProduction()
-                case 'development':
-                    startDevelompent()
+            if (!APP_ENV) {
+                console.log('PLEASE SET APP_ENV either to production or development')
+                return
             }
+
+            else if (APP_ENV == 'production') startProduction()
+
+            else if (APP_ENV == 'development') startDevelompent()
         })
 }
 
