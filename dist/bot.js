@@ -8,7 +8,7 @@ var APP_ENV = process.env.APP_ENV;
 var ADMIN_USER_ID = Number(process.env.ADMIN_USER_ID);
 var MONGODB_DATABASE_URL = process.env.MONGODB_DATABASE_URL;
 var BOT_TOKEN = process.env.BOT_TOKEN;
-var WEBHOOK_DOMAIN = process.env.WEBHOOK_DOMAIN;
+var WEBHOOK_URL = process.env.WEBHOOK_URL;
 var SERVER_PORT = process.env.SERVER_PORT;
 var PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
 var CERTIFICATE_PATH = process.env.CERTIFICATE_PATH;
@@ -972,20 +972,22 @@ var bot = new Telegraf3(BOT_TOKEN);
 var app = express();
 registerHandlers(bot);
 async function startProduction() {
-  if (!WEBHOOK_DOMAIN || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
+  if (!WEBHOOK_URL || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
     console.log("ABORTED. .ENV IS NOT VALID.");
     return;
   }
-  app.use(await bot.createWebhook({ domain: WEBHOOK_DOMAIN }));
+  app.post(WEBHOOK_URL, bot.webhookCallback(WEBHOOK_URL));
   const server = https.createServer({
     key: readFileSync(PRIVATE_KEY_PATH, "utf-8"),
     cert: readFileSync(CERTIFICATE_PATH, "utf-8"),
     ca: readFileSync(CA_BUNDLE_PATH, "utf-8")
   }, app);
   server.listen(SERVER_PORT, () => {
+    console.log("PRODUCTION STARTED.");
   });
 }
 function startDevelompent() {
+  console.log("DEVELOPMENT STARTED.");
   bot.launch();
 }
 function main() {
@@ -996,7 +998,6 @@ function main() {
       case "development":
         startDevelompent();
     }
-    console.log("Bot berjalan...");
   });
 }
 main();

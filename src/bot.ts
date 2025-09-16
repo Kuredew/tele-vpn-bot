@@ -1,5 +1,5 @@
 import { Telegraf } from "telegraf"
-import { APP_ENV, BOT_TOKEN, CA_BUNDLE_PATH, CERTIFICATE_PATH, MONGODB_DATABASE_URL, PRIVATE_KEY_PATH, SERVER_PORT, WEBHOOK_DOMAIN } from "config"
+import { APP_ENV, BOT_TOKEN, CA_BUNDLE_PATH, CERTIFICATE_PATH, MONGODB_DATABASE_URL, PRIVATE_KEY_PATH, SERVER_PORT, WEBHOOK_PATH } from "config"
 import { exit } from "process"
 
 import registerHandlers from "registerHandlers"
@@ -20,12 +20,12 @@ const app = express()
 registerHandlers(bot)
 
 async function startProduction() {
-    if (!WEBHOOK_DOMAIN || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
+    if (!WEBHOOK_PATH || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
         console.log('ABORTED. .ENV IS NOT VALID.')
         return
     }
 
-    app.use(await bot.createWebhook( { domain: WEBHOOK_DOMAIN }))
+    app.post(WEBHOOK_PATH, bot.webhookCallback(WEBHOOK_PATH))
     const server = https.createServer({
         key: readFileSync(PRIVATE_KEY_PATH, 'utf-8'),
         cert: readFileSync(CERTIFICATE_PATH, 'utf-8'),
@@ -33,10 +33,12 @@ async function startProduction() {
     }, app)
 
     server.listen(SERVER_PORT, () => {
+        console.log("PRODUCTION STARTED.");
     })
 }
 
 function startDevelompent() {
+    console.log("DEVELOPMENT STARTED.");
     bot.launch()    
 }
 
@@ -49,8 +51,6 @@ function main() {
                 case 'development':
                     startDevelompent()
             }
-
-            console.log("Bot berjalan...");
         })
 }
 
