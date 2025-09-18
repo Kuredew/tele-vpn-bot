@@ -8,7 +8,7 @@ var APP_ENV = process.env.APP_ENV;
 var ADMIN_USER_ID = Number(process.env.ADMIN_USER_ID);
 var MONGODB_DATABASE_URL = process.env.MONGODB_DATABASE_URL;
 var BOT_TOKEN = process.env.BOT_TOKEN;
-var WEBHOOK_URL = process.env.WEBHOOK_URL;
+var WEBHOOK_PATH = process.env.WEBHOOK_PATH;
 var SERVER_PORT = process.env.SERVER_PORT;
 var PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
 var CERTIFICATE_PATH = process.env.CERTIFICATE_PATH;
@@ -972,11 +972,11 @@ var bot = new Telegraf3(BOT_TOKEN);
 var app = express();
 registerHandlers(bot);
 async function startProduction() {
-  if (!WEBHOOK_URL || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
+  if (!WEBHOOK_PATH || !PRIVATE_KEY_PATH || !CERTIFICATE_PATH || !CA_BUNDLE_PATH || !SERVER_PORT) {
     console.log("ABORTED. .ENV IS NOT VALID.");
     return;
   }
-  app.post(WEBHOOK_URL, bot.webhookCallback(WEBHOOK_URL));
+  app.post(WEBHOOK_PATH, bot.webhookCallback(WEBHOOK_PATH));
   const server = https.createServer({
     key: readFileSync(PRIVATE_KEY_PATH, "utf-8"),
     cert: readFileSync(CERTIFICATE_PATH, "utf-8"),
@@ -992,12 +992,11 @@ function startDevelompent() {
 }
 function main() {
   mongoose3.connect(dbURL).then(() => {
-    switch (APP_ENV) {
-      case "production":
-        startProduction();
-      case "development":
-        startDevelompent();
-    }
+    if (!APP_ENV) {
+      console.log("PLEASE SET APP_ENV either to production or development");
+      return;
+    } else if (APP_ENV == "production") startProduction();
+    else if (APP_ENV == "development") startDevelompent();
   });
 }
 main();
